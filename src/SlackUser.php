@@ -64,6 +64,16 @@ abstract class SlackUser
     }
 
     /**
+     * Gets the user's display name if supplied.
+     *
+     * @return string
+     */
+    public function getDisplayName()
+    {
+        return isset($this->data['profile']['display_name']) ? $this->data['profile']['display_name'] : null;
+    }
+
+    /**
      * Gets the user's email address if supplied.
      *
      * @return string The user's email address, or null if no email was given.
@@ -121,6 +131,36 @@ abstract class SlackUser
     public function isPrimaryOwner()
     {
         return $this->data['is_primary_owner'];
+    }
+
+    /**
+     * Checks if the user is a multi-channel guest
+     *
+     * @return bool
+     */
+    public function isRestricted()
+    {
+        return $this->data['is_restricted'];
+    }
+
+    /**
+     * Checks if user is a single-channel guest
+     *
+     * @return bool
+     */
+    public function isUltraRestricted()
+    {
+        return $this->data['is_ultra_restricted'];
+    }
+
+    /**
+     * Checks if user is any type of guest
+     *
+     * @return bool
+     */
+    public function isGuest()
+    {
+        return $this->isRestricted() || $this->isUltraRestricted();
     }
 
     /**
@@ -232,4 +272,5 @@ abstract class SlackUser
     {
         return $this->data['updated'];
     }
+    
 }
